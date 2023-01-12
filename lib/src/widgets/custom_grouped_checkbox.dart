@@ -206,6 +206,9 @@ class CustomGroupedCheckboxState<T> extends CustomStateGroup<T?, CustomGroupedCh
   void changeSelection(int index, bool value) {
     if (widget.controller.isMultipleSelection) {
       if (!itemsSelections.value.contains(widget.values[index])) {
+        if (widget.controller.maxSelections != null && widget.controller.maxSelections! <= itemsSelections.value.length) {
+          return;
+        }
         if (value) {
           itemsSelections.value = List.from(itemsSelections.value)..add(widget.values[index]);
         }

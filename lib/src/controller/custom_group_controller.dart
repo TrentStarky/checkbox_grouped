@@ -12,18 +12,21 @@ class CustomGroupController {
   final List<dynamic> initSelectedItem;
   final bool isMultipleSelection;
   final List<CustomListener> _listeners = [];
+  final int? maxSelections;
 
   dynamic get selectedItem => _customStateGroup.selection();
 
   CustomGroupController({
     this.isMultipleSelection = false,
     dynamic initSelectedItem,
+    this.maxSelections,
   })  : assert(!(initSelectedItem is List), "shouldn't be a List"),
         this.initSelectedItem =
             initSelectedItem != null ? [initSelectedItem] : [];
 
   CustomGroupController.multiple({
     this.initSelectedItem = const [],
+    this.maxSelections,
   }) : this.isMultipleSelection = true;
 
   void init(CustomStateGroup stateGroup) {
