@@ -125,7 +125,9 @@ class CustomGroupedCheckboxState<T> extends CustomStateGroup<T?, CustomGroupedCh
       widget.controller.init(this);
 
       if (!widget.controller.isMultipleSelection) {
-        itemSelected.value = widget.controller.initSelectedItem.first;
+        if (widget.controller.initSelectedItem.isNotEmpty) {
+          itemSelected.value = widget.controller.initSelectedItem.first;
+        }
       } else {
         itemsSelections.value = List.castFrom(widget.controller.initSelectedItem);
       }
@@ -146,21 +148,21 @@ class CustomGroupedCheckboxState<T> extends CustomStateGroup<T?, CustomGroupedCh
   Widget build(BuildContext context) {
     final builder = (ctx, index) {
       return ValueListenableBuilder<CustomItem<T?>>(
-        valueListenable: items[index],
-        builder: (ctx, value, child) {
-          return ItemWidget(
-            child: widget.itemBuilder(
-              context,
-              index,
-              items[index].value.checked!,
-              items[index].value.isDisabled,
-            ),
-            value: items[index].value.checked,
-            callback: (v) {
-              if (!items[index].value.isDisabled) changeSelection(index, v);
-            },
-          );
-        },
+          valueListenable: items[index],
+          builder: (ctx, value, child) {
+            return ItemWidget(
+              child: widget.itemBuilder(
+                context,
+                index,
+                items[index].value.checked!,
+                items[index].value.isDisabled,
+              ),
+              value: items[index].value.checked,
+              callback: (v) {
+                if (!items[index].value.isDisabled) changeSelection(index, v);
+              },
+            );
+          },
       );
     };
     Widget child = ListView.builder(
@@ -186,20 +188,38 @@ class CustomGroupedCheckboxState<T> extends CustomStateGroup<T?, CustomGroupedCh
       behavior: ScrollBehavior(),
       child: child,
     );
-    return widget.groupTitle != null
-        ? SingleChildScrollView(
-            scrollDirection: axisScroll,
-            physics:
-                widget.isScroll ? AlwaysScrollableScrollPhysics() : NeverScrollableScrollPhysics(),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                widget.groupTitle!,
-                customWidget,
-              ],
-            ),
-          )
-        : customWidget;
+    return FormField(
+      validator: (_) {
+        print(widget.controller.minSelections);
+        print(widget.controller.maxSelections);
+        print(widget.controller.selectedItem);
+        if (widget.controller.minSelections >= 1) {
+          if (widget.controller.selectedItem is List && widget.controller.selectedItem.length < widget.controller.minSelections) {
+            return 'Not enough selected';
+          } else if (widget.controller.selectedItem == null) {
+            return 'Not enough selected 2';
+          }  else {
+            return null;
+          }
+        } else {
+          return null;
+        }
+      },
+      builder: (state) => widget.groupTitle != null
+          ? SingleChildScrollView(
+              scrollDirection: axisScroll,
+              physics:
+                  widget.isScroll ? AlwaysScrollableScrollPhysics() : NeverScrollableScrollPhysics(),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  widget.groupTitle!,
+                  customWidget,
+                ],
+              ),
+            )
+          : customWidget,
+    );
   }
 
   @override
