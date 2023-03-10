@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 import '../common/custom_state_group.dart';
 import '../common/utilities.dart';
 
@@ -14,6 +16,7 @@ class CustomGroupController {
   final List<CustomListener> _listeners = [];
   final int? maxSelections;
   final int minSelections;
+  ValueNotifier<String?> errorValue = ValueNotifier(null);
 
   dynamic get selectedItem => _customStateGroup.selection();
 

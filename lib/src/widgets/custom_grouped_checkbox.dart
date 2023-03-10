@@ -190,18 +190,20 @@ class CustomGroupedCheckboxState<T> extends CustomStateGroup<T?, CustomGroupedCh
     );
     return FormField(
       validator: (_) {
-        print(widget.controller.minSelections);
-        print(widget.controller.maxSelections);
-        print(widget.controller.selectedItem);
+        widget.controller.errorValue.value = null;
         if (widget.controller.minSelections >= 1) {
           if (widget.controller.selectedItem is List && widget.controller.selectedItem.length < widget.controller.minSelections) {
+            widget.controller.errorValue.value = 'Not enough selected';
             return 'Not enough selected';
           } else if (widget.controller.selectedItem == null) {
+            widget.controller.errorValue.value = 'Not enough selected 2';
             return 'Not enough selected 2';
           }  else {
+            widget.controller.errorValue.value = null;
             return null;
           }
         } else {
+          widget.controller.errorValue.value = null;
           return null;
         }
       },
