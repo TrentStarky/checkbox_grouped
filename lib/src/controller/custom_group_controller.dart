@@ -19,6 +19,10 @@ class CustomGroupController {
   ValueNotifier<String?> errorValue = ValueNotifier(null);
 
   dynamic get selectedItem => _customStateGroup.selection();
+  bool get isCurrentlyValid =>
+      minSelections == 0 ||
+      _customStateGroup.itemsSelections.value.length >= minSelections ||
+      _customStateGroup.itemSelected.value != null;
 
   CustomGroupController({
     this.isMultipleSelection = false,
@@ -71,8 +75,7 @@ class CustomGroupController {
   void disabledItems(List<dynamic> items) =>
       _customStateGroup.disabledItemsByValues(items);
 
-
-  void clearSelection(){
+  void clearSelection() {
     _customStateGroup.reset();
   }
 }
