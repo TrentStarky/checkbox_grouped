@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../checkbox_grouped.dart';
-import '../common/utilities.dart';
-import '../controller/group_controller.dart';
-import '../controller/list_group_controller.dart';
-import 'simple_grouped_checkbox.dart';
 
 /// display  simple groupedCheckbox
 /// [controller]              :  (required) List Group Controller to recuperate selection
@@ -138,7 +134,7 @@ class ListGroupedCheckboxState<T> extends State<ListGroupedCheckbox> {
                     title: Text(
                       widget.groupTitles[index],
                       style: widget.titleGroupedTextStyle ??
-                          Theme.of(context).textTheme.headline6?.copyWith(
+                          Theme.of(context).textTheme.titleSmall?.copyWith(
                                 fontSize: 16,
                               ),
                     ),
@@ -171,7 +167,7 @@ class ListGroupedCheckboxState<T> extends State<ListGroupedCheckbox> {
                     title: Text(
                       widget.groupTitles[index],
                       style: widget.titleGroupedTextStyle ??
-                          Theme.of(context).textTheme.headline6?.copyWith(
+                          Theme.of(context).textTheme.titleSmall?.copyWith(
                                 fontSize: 16,
                               ),
                     ),

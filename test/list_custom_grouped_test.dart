@@ -95,7 +95,7 @@ void main() async {
             ),
           ),
         ),
-        Duration(seconds: 30));
+        duration: Duration(seconds: 30));
 
     await tester.pump();
 
